@@ -1,44 +1,24 @@
 default: &default
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: <%= ENV.fetch("POSTGRESQL_HOST", Rails.application.credentials.dig(:database, :host) || "localhost") %>
-  username: <%= ENV.fetch("POSTGRESQL_USERNAME", Rails.application.credentials.dig(:database, :username) || "postgres") %>
-  password: <%= ENV.fetch("POSTGRESQL_PASSWORD", Rails.application.credentials.dig(:database, :password) || "") %>
+    adapter: postgresql
+    encoding: unicode
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    url: <%= ENV.fetch("DATABASE_URL") { "postgres://localhost/my_todos" } %>
 
 development:
-  <<: *default
-  database: <%= ENV.fetch("POSTGRESQL_DB_DEV", "my_todos_development") %>
+    <<: *default
+    database: my_todos_development
 
 test:
-  <<: *default
-  database: <%= ENV.fetch("POSTGRESQL_DB_TEST", "my_todos_test") %>
-
-# Remote development
-devtest:
-  <<: *default
-  database: <%= ENV.fetch("POSTGRESQL_DB_DEV", "my_todos_development") %>
-
-# UAT
-uat:
-  <<: *default
-  database: my_todos_uat
+    <<: *default
+    database: my_todos_test
 
 production:
-  primary:
-    adapter: postgresql
-    encoding: unicode
-    pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
-    url: <%= ENV.fetch("DATABASE_URL") %>
-
-  queue:
-    adapter: postgresql
-    encoding: unicode
-    pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
-    url: <%= ENV.fetch("DATABASE_URL") %>   # ใช้ DB เดียวกันไปก่อน
-
-  cable:
-    adapter: postgresql
-    encoding: unicode
-    pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
-    url: <%= ENV.fetch("DATABASE_URL") %>   # ใช้ DB เดียวกันไปก่อน
+    primary: &primary_production
+        <<: *default
+        url: <%= ENV.fetch("DATABASE_URL") { "postgres://localhost/my_todos" } %>
+    cache:
+        <<: *primary_production
+    queue:
+        <<: *primary_production
+    cable:
+        <<: *primary_production

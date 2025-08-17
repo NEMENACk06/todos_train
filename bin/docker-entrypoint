@@ -1,33 +1,14 @@
 #!/bin/bash -e
 
-# Enable jemalloc (optional)
+# Enable jemalloc for reduced memory usage and latency.
 if [ -z "${LD_PRELOAD+x}" ]; then
-  LD_PRELOAD=$(find /usr/lib -name libjemalloc.so.2 -print -quit || true)
-  export LD_PRELOAD
+    LD_PRELOAD=$(find /usr/lib -name libjemalloc.so.2 -print -quit)
+    export LD_PRELOAD
 fi
 
-export RAILS_ENV="${RAILS_ENV:-production}"
-export RACK_ENV="${RACK_ENV:-$RAILS_ENV}"
-export PORT="${PORT:-3000}"
-
-# เตรียมโฟลเดอร์ที่ต้องเขียน
-mkdir -p app/assets/builds/tailwind log tmp storage
-chmod -R u+rwX app/assets/builds log tmp storage
-
-# 1) เตรียมฐานข้อมูล — ทำเสมอ (idempotent)
-echo "[entrypoint] db:prepare…"
-bundle exec rails db:prepare
-
-# 2) Precompile assets ตอน runtime (ข้ามได้ด้วย SKIP_ASSETS=1)
-if [ "${RAILS_ENV}" = "production" ] && [ -z "${SKIP_ASSETS}" ]; then
-  if [ ! -d "public/assets" ] || [ -z "$(ls -A public/assets 2>/dev/null)" ]; then
-    echo "[entrypoint] assets:precompile…"
-    : "${RAILS_MASTER_KEY:?RAILS_MASTER_KEY is required for assets:precompile in production}"
-    DISABLE_BOOTSNAP=1 bundle exec rails assets:precompile
-  else
-    echo "[entrypoint] assets already present, skip precompile."
-  fi
+# If running the rails server then create or migrate existing database
+if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
+  ./bin/rails db:prepare
 fi
 
-echo "[entrypoint] Ready: $* (PORT=$PORT, RAILS_ENV=$RAILS_ENV)"
-exec "$@"
+exec "${@}"
