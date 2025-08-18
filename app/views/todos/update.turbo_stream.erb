@@ -1,0 +1,4 @@
+<%= turbo_stream.replace @todo do %>
+  <%= render "todos/todo", category: @category, todo: @todo %>
+<% end %>
+

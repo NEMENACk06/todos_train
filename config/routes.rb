@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  # resources :quests
+  get "brags/document"
+# resources :quests
 # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
 # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -7,9 +8,13 @@ Rails.application.routes.draw do
 # config/routes.rb
 Rails.application.routes.draw do
   resources :categories do
-    resources :todos
+    resources :todos do
+      member { patch :toggle }
+    end
   end
+
   root "categories#index"
+  get "my-brags-document" => "brags#document", as: :my_brags_document
 end
 
 

@@ -1,5 +1,4 @@
 module TodosHelper
-  # ข้อความที่จะแสดง (แก้เป็นไทย/ใช้ i18n ก็ได้)
   def priority_label(todo)
     case todo.priority_level
     when "important_urgent"         then "สำคัญและเร่งด่วน"
@@ -9,7 +8,6 @@ module TodosHelper
     end
   end
 
-  # คลาสสีของ badge
   def priority_badge_class(todo)
     case todo.priority_level
     when "important_urgent"         then "bg-red-500 text-white"
@@ -27,6 +25,6 @@ module TodosHelper
   }.freeze
 
   def priority_options_for_select
-    Todo.priority_levels.keys.map { |k| [PRIORITY_OPTIONS[k], k] }
+    Todo.priority_levels.keys.map { |k| [ PRIORITY_OPTIONS[k], k ] }
   end
 end

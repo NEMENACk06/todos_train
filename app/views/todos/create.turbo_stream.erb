@@ -1,0 +1,7 @@
+<%= turbo_stream.append dom_id(@category, :todos) do %>
+  <%= render "todos/todo", category: @category, todo: @todo %>
+<% end %>
+
+<%= turbo_stream.replace dom_id(@category, :new_todo_form),
+      partial: "todos/form",
+      locals: { category: @category, todo: @category.todos.build } %>

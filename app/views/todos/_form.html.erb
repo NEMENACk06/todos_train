@@ -1,0 +1,14 @@
+<%= form_with model: [category, todo],
+              id: dom_id(category, :new_todo_form),
+              data: { turbo_stream: true },
+              class: "md:flex space-x-2" do |f| %>
+  <%= f.text_field :title,
+        placeholder: "New todo",
+        class: "flex-1 border-2 border-emerald-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400" %>
+  <%= f.select :priority_level,
+        priority_options_for_select,
+        {},
+        class: "border-2 border-amber-300 rounded px-2 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400" %>
+  <%= f.submit "Add Todo",
+        class: "px-5 py-2 bg-emerald-500 text-white font-semibold rounded hover:bg-emerald-600 transition" %>
+<% end %>

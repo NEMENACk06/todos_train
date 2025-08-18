@@ -7,23 +7,37 @@
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= yield :head %>
-
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
-
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <div class="navbar bg-base-100 shadow-sm">
+      <div class="tabs tabs-bordered flex justify-center max-md:justify-end">
+        <%= link_to categories_path,
+              role: "tab",
+              aria_label: "Tab 1",
+              class: tab_header(root_path,categories_path) ,
+              "data-testid": "categories-link",
+              data: { testid: "categories-link" } do %>
+          Categories
+        <% end %>
+        <%= link_to my_brags_document_path,
+              role: "tab",
+              aria_label: "Tab 2",
+              class: tab_header(my_brags_document_path) ,
+              data: { testid: "odt-event-link" } do %>
+          My Brags
+        <% end %>
+      </div>
+    </div>
+    <main>
       <%= yield %>
     </main>
   </body>
