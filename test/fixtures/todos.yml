@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  category: one
+  title: MyString
+  notes: MyText
+  is_done: false
+  priority_level: 1
+  due_on: 2025-08-18
+  due_time: 2025-08-18 10:51:29
+  position: 1
+
+two:
+  category: two
+  title: MyString
+  notes: MyText
+  is_done: false
+  priority_level: 1
+  due_on: 2025-08-18
+  due_time: 2025-08-18 10:51:29
+  position: 1
