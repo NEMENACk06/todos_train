@@ -5,10 +5,16 @@
   <%= f.text_field :title,
         placeholder: "New todo",
         class: "flex-1 border-2 border-emerald-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-400" %>
-  <%= f.select :priority_level,
+  <label class="input w-fit">
+    <span class="label">Due date</span>
+    <%= f.date_field :due_on %>  </label>
+  <label class="select w-fit">
+    <span class="label">Priority</span>
+    <%= f.select :priority_level,
         priority_options_for_select,
-        {},
-        class: "border-2 border-amber-300 rounded px-2 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400" %>
+        {}, # options (empty hash ถ้าไม่ใส่อะไร)
+        class: "form-select" %>
+  </label>
   <%= f.submit "Add Todo",
         class: "px-5 py-2 bg-emerald-500 text-white font-semibold rounded hover:bg-emerald-600 transition" %>
 <% end %>

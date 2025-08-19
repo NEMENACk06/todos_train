@@ -1,36 +1,34 @@
-<!-- app/views/categories/index.html.erb -->
-<div class="w-full mx-auto p-6 bg-gradient-to-b from-indigo-50 to-pink-50 min-h-screen">
-  <h1 class="text-3xl font-extrabold mb-8 text-center text-indigo-700">📋 Categories & Todos</h1>
-  <!-- Add Category Form -->
-  <div class="mb-10">
-    <%= form_with model: @category, class: "flex space-x-2" do |f| %>
-      <%= f.text_field :name,
-        placeholder: "New category",
-        class: "flex-1 border-2 border-indigo-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400" %>
-      <%= f.submit "➕ Add Category",
-        class: "px-5 py-2 bg-pink-500 text-white font-semibold rounded hover:bg-pink-600 transition" %>
-    <% end %>
-  </div>
-  <!-- Categories Loop -->
-  <div class="space-y-8">
-    <% @categories.each do |category| %>
-      <div class="border-2 border-indigo-200 rounded-xl bg-white shadow-lg p-5">
-        <h2 class="text-xl font-bold text-indigo-600 mb-4 flex justify-between items-center">
-          💡 <%= category.name %>
-          <%= link_to "🗑 Delete",
+<div class=" h-screen mx-auto p-6 bg-gradient-to-b from-indigo-50 to-pink-50 min-h-screen">
+  <h1 class="text-3xl font-extrabold mb-6 text-center text-indigo-700">📋 Categories & Todos</h1>
+  <!-- ฟอร์มเพิ่มหมวด -->
+  <%= render partial: "new", locals: { category: @category } %>
+  <div class="grid grid-cols-[auto_1fr] bg-red-50">
+    <!-- col1: categories -->
+    <%= render partial: "lists", locals: { categories: @categories } %>
+    <!-- col2: todos-->
+    <% if params[:category_id].present? %>
+      <% category = @categories.find { |c| c.id == params[:category_id].to_i } %>
+      <% if category %>
+        <div class="border-2 border-indigo-200 rounded-xl bg-white shadow-lg p-5">
+          <div class="flex justify-between items-center mb-4 min">
+            <h2 class="text-xl font-bold text-indigo-600">
+              <%= category_name_with_count(category)  %>
+            </h2>
+            <%= link_to "🗑 ลบ",
               category_path(category),
-              data: { turbo_method: :delete, turbo_confirm: "Delete this category and its todos?" },
+              data: { turbo_method: :delete, turbo_confirm: "ลบหมวดนี้และงานทั้งหมด?" },
               class: "text-red-500 hover:text-red-700" %>
-        </h2>
-        <!-- Todos list (ให้ turbo_stream.append มาใส่ที่นี่) -->
-        <ul id="<%= dom_id(category, :todos) %>" class="space-y-2">
-          <%= render category.todos, category: category %>
-        </ul>
-        <!-- Add Todo Form (ให้ turbo_stream.replace เพื่อเคลียร์ฟอร์ม) -->
-        <div class="mt-5">
-          <%= render "todos/form", category: category, todo: category.todos.build %>
+          </div>
+          <!-- Todos -->
+          <ul id="<%= dom_id(category, :todos) %>" class="space-y-2">
+            <%= render category.todos.by_due_date, category: category %>
+          </ul>
+          <!-- ฟอร์มเพิ่ม Todo -->
+          <div id="<%= dom_id(category, :new_todo_form) %>" class="mt-5">
+            <%= render "todos/form", category: category, todo: category.todos.build %>
+          </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
   </div>
 </div>

@@ -1,13 +1,14 @@
-<li id="<%= dom_id(todo) %>" class="flex items-center justify-between p-3 border rounded-lg   <%= todo.is_done ? 'bg-gray-100 border-gray-300 text-gray-400' : 'bg-gradient-to-r from-emerald-50 to-amber-50 border-emerald-200 text-gray-800' %>">
-  <div class="flex items-center gap-2">
+<li id="<%= dom_id(todo) %>" class="flex items-center justify-between p-3 border rounded-lg w-full <%= todo.is_done ? 'bg-gray-100 border-gray-300 text-gray-400' : 'bg-gradient-to-r from-emerald-50 to-amber-50 border-emerald-200 text-gray-800' %>">
+  <div class="flex md:flex-row-2 items-center gap-2">
     <%= form_with url: toggle_category_todo_path(category, todo),
                   method: :patch, data: { turbo_stream: true } do %>
-      <input type="checkbox"
-             <%= "checked" if todo.is_done %>
+      <input type="checkbox" 
+             class="checkbox checkbox-success"
+             <%= "checked='checked'" if todo.is_done %>
              onchange="this.form.requestSubmit()">
     <% end %>
     <span class="<%= todo.is_done ? 'line-through text-gray-400' : 'text-gray-800 font-medium' %>">
-      <%= todo.title %>
+      <%= todo.title %> / <%= todo.due_on %>
     </span>
     <span class="ml-2 text-sm px-2 py-0.5 rounded-full <%= priority_badge_class(todo) %>">
       <%= priority_label(todo) %>

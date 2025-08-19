@@ -3,6 +3,8 @@ class TodosController < ApplicationController
   before_action :set_category
   before_action :set_todo, only: [ :update, :destroy, :toggle ]
 
+
+
   def create
     @todo = @category.todos.new(todo_params)
     if @todo.save

@@ -1,0 +1,8 @@
+<div class="p-4 w-fit">
+  <div class="inline-flex flex-col items-start gap-2">
+    <h1>My categories (<%= @categories.count%>)</h1>
+    <% @categories.each do |category| %>
+      <%= render partial: "list", locals: { category: category } %>
+    <% end %>
+  </div>
+</div>
