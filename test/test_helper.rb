@@ -1,13 +1,9 @@
-ENV["RAILS_ENV"] ||= "test"
-require_relative "../config/environment"
-require "rails/test_help"
-
-require "simplecov"
+# test/test_helper.rb หรือ spec/spec_helper.rb ก่อน SimpleCov.start
+require 'simplecov'
+require Rails.root.join('lib/simple_cov/formatter/simple_formatter')
 
 SimpleCov.formatters = [
   SimpleCov::Formatter::HTMLFormatter,
   SimpleCov::Formatter::SimpleFormatter
 ]
-SimpleCov.start "rails"
-
-require_relative "../lib/simplecov/formatter/simple_formatter"
+SimpleCov.start 'rails'

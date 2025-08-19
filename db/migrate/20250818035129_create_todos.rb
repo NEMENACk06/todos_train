@@ -23,6 +23,6 @@ class CreateTodos < ActiveRecord::Migration[8.0]
 
     add_index :todos, :is_done
     add_index :todos, :priority_level
-    add_index :todos, [:category_id, :position]
+    add_index :todos, [ :category_id, :position ]
   end
 end

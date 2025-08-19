@@ -60,7 +60,7 @@ group :test do
   gem "rspec-rails"
   gem "capybara"
   gem "selenium-webdriver"
-    gem "simplecov", require: false
+  gem "simplecov", require: false
 end
 
 gem "dotenv-rails", "~> 3.1", groups: [ :development, :test ]
