@@ -12,9 +12,13 @@ development:
   # ถ้าอยากใช้ URL สำหรับ dev ค่อยใส่บรรทัดนี้ (ไม่แนะนำถ้าใช้โลคัล)
   # url: <%= ENV["DATABASE_URL_DEVELOPMENT"] %>
 
+# config/database.yml
 test:
-  <<: *default
-  database: <%= ENV.fetch("POSTGRESQL_DB_TEST", "my_todos_test") %>
+  adapter: sqlite3
+  database: db/test.sqlite3
+  pool: 5
+  timeout: 5000
+
   # ที่สำคัญ: อย่าใส่ url ใน test
 
 production:

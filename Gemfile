@@ -61,6 +61,8 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "simplecov", require: false
+  gem "sqlite3", "~> 1.7"
+
 end
 
 gem "dotenv-rails", "~> 3.1", groups: [ :development, :test ]
